@@ -99,29 +99,6 @@ body {
   left: 0;
   cursor: pointer;
 }
-/*  object-slider : flavor*/
-/*  flavor-orange */
-.object.flavor-orange {
-  color: #fb9678;
-}
-.obj-slider.flavor-orange .slider-range-min .ui-slider-handle:before {
-  border-bottom-color: #fb9678;
-}
-/*  flavor-green */
-.object.flavor-green {
-  color: #00c292;
-}
-.obj-slider.flavor-green .slider-range-min .ui-slider-handle:before {
-  border-bottom-color: #00c292;
-}
-
-/*  flavor-violet */
-.object.flavor-violet {
-  color: #ab8ce4;
-}
-.obj-slider.flavor-violet .slider-range-min .ui-slider-handle:before {
-  border-bottom-color: #ab8ce4;
-}
 
 /* object obj-button */
 
@@ -220,19 +197,12 @@ body {
   font-size: 15px;
   height: 30px;
   margin-top: 2px;
-  border: 0 none;
+  border-width: 0 0 1px 0;
   background: transparent;
   pointer-events: none;
-}
-.obj-timer .obj-timer-set .obj-timer-val::before {
-  content: "h";
-  display: inline-block;
-  width: 10px;
-  height: 10px;
-  background: red;
-  position: absolute;
-  top: 0;
-  left: 0;
+  -webkit-transition: 300ms;
+  -o-transition: 300ms;
+  transition: 300ms;
 }
 .obj-timer-set {
   width: 94px;
@@ -282,12 +252,23 @@ body {
   pointer-events: all;
 }
 
-
+/*  Flavor blue (default) */
+.obj-timer .obj-timer-set .obj-timer-val
 .object .obj-timer-set.timer-on .obj-timer-on,
 .object .obj-timer-set.timer-edit .obj-timer-edit {
   background-color: #01c0c8;
 }
+.obj-timer:hover .obj-timer-set .obj-timer-val {
+  border-bottom-color: #01c0c8;
+}
 /*  Flavor oragne */
+.object.flavor-orange {
+  color: #fb9678;
+}
+.object.flavor-orange .obj-timer:hover .obj-timer-set .obj-timer-val,
+.obj-slider.flavor-orange .slider-range-min .ui-slider-handle:before {
+  border-bottom-color: #fb9678;
+}
 .obj-turn.flavor-orange .switch-button,
 .obj-turn.flavor-orange .switch-button.switch-on,
 .obj-slider.flavor-orange .ui-widget-header,
@@ -298,6 +279,13 @@ body {
   background-color: #fb9678;
 }
 /*  Flavor green */
+.object.flavor-green {
+  color: #00c292;
+}
+.object.flavor-green .obj-timer:hover .obj-timer-set .obj-timer-val,
+.obj-slider.flavor-green .slider-range-min .ui-slider-handle:before {
+  border-bottom-color: #00c292;
+}
 .obj-turn.flavor-green .switch-button,
 .obj-turn.flavor-green .switch-button.switch-on,
 .obj-slider.flavor-green .ui-widget-header,
@@ -307,7 +295,15 @@ body {
 .object.flavor-green .obj-timer-set.timer-edit .obj-timer-edit {
   background-color: #00c292;
 }
+
 /*  Flavor violet */
+.object.flavor-violet {
+  color: #ab8ce4;
+}
+.object.flavor-violet .obj-timer:hover .obj-timer-set .obj-timer-val,
+.obj-slider.flavor-violet .slider-range-min .ui-slider-handle:before {
+  border-bottom-color: #ab8ce4;
+}
 .obj-turn.flavor-violet .switch-button,
 .obj-turn.flavor-violet .switch-button.switch-on,
 .obj-slider.flavor-violet .ui-widget-header,

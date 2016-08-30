@@ -57,6 +57,7 @@ $(".obj-timer-set .obj-timer-on").click(function(e) {
 $(".obj-timer-set .obj-timer-edit").click(function(e) {
 	var Timer = $(this).closest(".obj-timer-set");
 	$(Timer).toggleClass("timer-edit");
+	$(this).siblings(".obj-timer-val").first().focus();
 	if( ! $(Timer).hasClass("timer-edit") ) {
   		var ObjTimer = $(Timer).closest(".obj-timer");
 		SetTimerProgress(ObjTimer);
