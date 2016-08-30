@@ -1,4 +1,43 @@
+// Create a new event : doubletap
+
+(function($){
+
+  $.event.special.doubletap = {
+    bindType: 'touchend',
+    delegateType: 'touchend',
+
+    handle: function(event) {
+      var handleObj   = event.handleObj,
+          targetData  = jQuery.data(event.target),
+          now         = new Date().getTime(),
+          delta       = targetData.lastTouch ? now - targetData.lastTouch : 0,
+          delay       = delay == null ? 300 : delay;
+
+      if (delta < delay && delta > 30) {
+        targetData.lastTouch = null;
+        event.type = handleObj.origType;
+        ['clientX', 'clientY', 'pageX', 'pageY'].forEach(function(property) {
+          event[property] = event.originalEvent.changedTouches[0][property];
+        })
+
+        // let jQuery handle the triggering of "doubletap" event handlers
+        handleObj.handler.apply(this, arguments);
+      } else {
+        targetData.lastTouch = now;
+      }
+    }
+  };
+
+})(jQuery);
+
+
 $(document).ready(function(){
+
+function isMobile() {
+  try{ document.createEvent("TouchEvent"); return true; }
+  catch(e){ return false; }
+}
+var mobile = isMobile();
 
 ////////////////////////////////////////////
 ////		Object Slider Value 		////
@@ -29,28 +68,43 @@ $(".obj-slider").each(function() {
 /////////////////////////////////////
 ////		Object Timer 		////
 
+if( !mobile ) {	// Not loaded on mobile
+
 // -- 	Turn on
-$('.object .obj-timer').click(function() {
+$('.object .obj-timer').on("click",function() {
 	$(this).closest(".object").addClass("turn-on");
-	$(this).siblings(".switch-button:not('.type-turn')").eq(0).addClass("switch-on");
+	$(this).siblings(".switch-button:not('.type-turn')").first().addClass("switch-on");
 });
 
 // --	Turn off
-$('.object .obj-timer').dblclick(function() {
+$('.object .obj-timer').on("dblclick",function() {
 	$(this).closest(".object").removeClass("turn-on");
-	$(this).siblings(".switch-button:not('.type-turn')").eq(0).removeClass("switch-on");
+	$(this).siblings(".switch-button:not('.type-turn')").first().removeClass("switch-on");
 	ClearTimer($(this).closest(".obj-timer"));
 });
+
+// --	prevent parent click
+$(".obj-timer-set .obj-timer-on, .obj-timer-set .obj-timer-edit").dblclick(function(e) {
+	e.stopPropagation();
+});
+
+} // End not loaced mobile
+
 
 // -- 	Timer : on/off
 $(".obj-timer-set .obj-timer-on").click(function(e) {
 	var Timer = $(this).closest(".obj-timer-set");
-	$(Timer).toggleClass("timer-on").removeClass("timer-edit");
-	if( ! $(Timer).hasClass("timer-on") ){
-		ClearTimer($(Timer).closest(".obj-timer"));
-	}else{
+	if( $(Timer).hasClass("timer-on") && $(Timer).hasClass("timer-edit") ){
+		$(Timer).removeClass("timer-edit");
 		SetTimerProgress($(Timer).closest(".obj-timer"));
 	}
+	else 
+		if( $(Timer).hasClass("timer-on") && ! $(Timer).hasClass("timer-edit") )
+			ClearTimer($(Timer).closest(".obj-timer"));
+		else {
+			$(Timer).toggleClass("timer-on").removeClass("timer-edit");
+			SetTimerProgress($(Timer).closest(".obj-timer"));
+		}
 })
 
 // --	Timer : Edit
@@ -58,16 +112,11 @@ $(".obj-timer-set .obj-timer-edit").click(function(e) {
 	var Timer = $(this).closest(".obj-timer-set");
 	$(Timer).toggleClass("timer-edit");
 	$(this).siblings(".obj-timer-val").first().focus();
-	if( ! $(Timer).hasClass("timer-edit") ) {
+	if( ! $(Timer).hasClass("timer-edit") && $(Timer).hasClass("timer-on") ) {
   		var ObjTimer = $(Timer).closest(".obj-timer");
 		SetTimerProgress(ObjTimer);
 	}
 
-});
-
-// --	prevent parent click
-$(".obj-timer-set .obj-timer-on, .obj-timer-set .obj-timer-edit").dblclick(function(e) {
-	e.stopPropagation();
 });
 
 // --	Set timer for object : time_set - time_current (minute)
@@ -140,6 +189,25 @@ $(".object .switch-button").click(function(){
 
 ////		Finish Object Switch 		////
 ///////////////////////////////////////////
+
+if( mobile ) { // Load on mobile
+
+	$('.object .obj-timer').on("touchstart",function() {
+		$(this).closest(".object").addClass("turn-on");
+		$(this).siblings(".switch-button:not('.type-turn')").first().addClass("switch-on");
+	});
+
+	$('.object .obj-timer').on("doubletap", function(){
+		$(this).closest(".object").removeClass("turn-on");
+		$(this).siblings(".switch-button:not('.type-turn')").first().removeClass("switch-on");
+		ClearTimer($(this).closest(".obj-timer"));
+	});
+
+	$(".obj-timer-set .obj-timer-on, .obj-timer-set .obj-timer-edit").on("doubletap",function(e) {
+		e.stopPropagation();
+	});
+
+} // End load on mobile
 
 
 });

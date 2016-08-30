@@ -2,7 +2,12 @@ body {
   padding-top: 170px;
   padding-bottom: 30px;
   background: #EBEFF2;
+  position: relative;
+  
 }
+/*html, body {
+  -webkit-overflow-scrolling : touch !important;
+}*/
 .navbar {
   height: 100px;
   background-color: #36404a;
@@ -46,7 +51,7 @@ body {
 .obj-timer {
   width: 82px;
   height: 82px;
-  border: 3px solid #ccc;
+  border: 0;
   border-radius: 50%;
   position: absolute;
   top: 20px;
@@ -74,7 +79,7 @@ body {
   bottom: 0;
   background-color: rgba(120, 130, 140, 0.13);
   cursor: pointer;
-  outline: 0;
+  outline: none;
 }
 .obj-slider .slider-range-min .ui-slider-handle {
   border: 0px;
@@ -84,7 +89,7 @@ body {
   border-radius: 0 0 3px 3px;
   background-color: #01c0c8;
   cursor: pointer;
-  outline: 0;
+  outline: none;
 }
 .obj-slider .slider-range-min .ui-slider-handle::before {
   content: '';
@@ -185,6 +190,12 @@ body {
 }
 .obj-timer .obj-icon {
   font-size: 50px;
+  -webkit-transition: 300ms;
+  -o-transition: 300ms;
+  transition: 300ms;
+}
+.obj-timer:hover .obj-icon {
+  color: inherit;
 }
 .obj-timer .obj-timer-set {
   display: none;
@@ -193,11 +204,15 @@ body {
 .obj-timer .obj-timer-set .obj-timer-val {
   color: inherit;
   width: 45px;
-  display: inline;
+  display: inline-block;
   font-size: 15px;
+  line-height: 30px;
   height: 30px;
   margin-top: 2px;
   border-width: 0 0 1px 0;
+  border-radius: 0;
+  border-color: transparent;
+  outline: none;
   background: transparent;
   pointer-events: none;
   -webkit-transition: 300ms;
@@ -222,12 +237,12 @@ body {
   margin-top: 5px
 }
 .obj-timer-set .obj-timer-edit {
-  float: left;;
-  margin-left: -11px;
+  float: left;
+  margin-left: -8px;
 }
 .obj-timer-set .obj-timer-on {
   float: right;
-  margin-right: -11px;
+  margin-right: -8px;
 }
 .obj-timer-set .obj-timer-on .fa, .obj-timer-set .obj-timer-edit .fa {
   color: #fff;
@@ -253,7 +268,6 @@ body {
 }
 
 /*  Flavor blue (default) */
-.obj-timer .obj-timer-set .obj-timer-val
 .object .obj-timer-set.timer-on .obj-timer-on,
 .object .obj-timer-set.timer-edit .obj-timer-edit {
   background-color: #01c0c8;
@@ -348,6 +362,7 @@ body {
   border: 1px solid #01c0c8;
   width: 74px;
   height: 32px;
+  outline: 0;
   border-radius: 5px;
   position: absolute;
   left: 20px;
@@ -383,7 +398,7 @@ body {
   height: 100%;
 }
 .timer-progress circle {
-  stroke: #ccc;
+  stroke: #cccccc;
   stroke-width: 3px;
   stroke-dashoffset: 0;
   fill: transparent;
