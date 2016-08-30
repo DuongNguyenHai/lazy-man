@@ -1,0 +1,420 @@
+body {
+  padding-top: 170px;
+  padding-bottom: 30px;
+  background: #EBEFF2;
+}
+.navbar {
+  height: 100px;
+  background-color: #36404a;
+  border-color: #36404a;
+}
+.object {
+  color: #01c0c8;
+  position: relative;
+  min-height: 145px;
+  margin: 10px 0;
+  padding: 20px 0 0 0;
+  background-color: #fff;
+  background-repeat: repeat-x;
+  border: 1px solid #dfe4ed;
+  box-shadow: 0 0px 8px 0 rgba(0, 0, 0, 0.06), 0 1px 0px 0 rgba(0, 0, 0, 0.02);
+}
+.obj-header {
+  font-size: 14px;
+  color: #98a6ad;
+}
+.obj-info {
+  text-align: right;
+  width: 80%;
+  text-align: left;
+  padding: 0 20px 0px 20px;
+}
+.obj-counter-percent {
+  margin: 35px 0 10px 0;
+}
+
+.obj-counter-percent .counter{
+  color: inherit;
+  font-size: 14px;
+  font-weight: 300;
+}
+.obj-counter-percent .fa {
+  font-size: 14px;
+  color: #ccc;
+  margin-right: 6px;
+}
+.obj-timer {
+  width: 82px;
+  height: 82px;
+  border: 3px solid #ccc;
+  border-radius: 50%;
+  position: absolute;
+  top: 20px;
+  right: 20px;
+}
+.obj-power-consumption {
+  color: #797979;
+  font-weight: 600;
+}
+.obj-power-consumption .fa {
+  margin-right: 5px;
+}
+/*  Object : object-slider */
+.obj-slider .ui-widget-header {
+  border-radius: 0;
+  background-color: #01c0c8;
+}
+.obj-slider .ui-widget.ui-widget-content {
+  width: 100%;
+  height: 6px;
+  border: 0;
+  border-radius: 0;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  background-color: rgba(120, 130, 140, 0.13);
+  cursor: pointer;
+  outline: 0;
+}
+.obj-slider .slider-range-min .ui-slider-handle {
+  border: 0px;
+  height: 20px;
+  width: 14px;
+  top: -0.2em;
+  border-radius: 0 0 3px 3px;
+  background-color: #01c0c8;
+  cursor: pointer;
+  outline: 0;
+}
+.obj-slider .slider-range-min .ui-slider-handle::before {
+  content: '';
+  display: block;
+  width: 0; 
+  height: 0; 
+  border-left: 7px solid transparent;
+  border-right: 7px solid transparent;
+  border-bottom: 7px solid #01c0c8;
+  position: absolute;
+  top: -7px;
+  left: 0;
+  cursor: pointer;
+}
+/*  object-slider : flavor*/
+/*  flavor-orange */
+.object.flavor-orange {
+  color: #fb9678;
+}
+.obj-slider.flavor-orange .slider-range-min .ui-slider-handle:before {
+  border-bottom-color: #fb9678;
+}
+/*  flavor-green */
+.object.flavor-green {
+  color: #00c292;
+}
+.obj-slider.flavor-green .slider-range-min .ui-slider-handle:before {
+  border-bottom-color: #00c292;
+}
+
+/*  flavor-violet */
+.object.flavor-violet {
+  color: #ab8ce4;
+}
+.obj-slider.flavor-violet .slider-range-min .ui-slider-handle:before {
+  border-bottom-color: #ab8ce4;
+}
+
+/* object obj-button */
+
+.object.obj-button .obj-info {
+  text-align: left;
+}
+.switch-button {
+    height: 30px;
+    width: 70px;
+    position: absolute;
+    left: 20px;
+    bottom: 20px;
+    border: medium none;
+    border-radius: 9px;
+    background: #ccc;
+    cursor: pointer;
+}
+.switch-button::before {
+  content: "OFF";
+  font-size: 12px;
+  color: #fff;
+  position: absolute;
+  right: 9px;
+  top: 7px;
+  -webkit-transition-duration: 300ms;
+  -o-transition-duration: 300ms;
+  transition-duration: 300ms;
+}
+.switch-button::after {
+  content: " ";
+  width: 29px;
+  height: 25px;
+  position: absolute;
+  left: 2px;
+  top: 2px;
+  z-index: 2;
+  border-radius: 9px;
+  box-shadow: 0 2px 5px #999999;
+  background: #fff none repeat scroll 0 0;
+  -webkit-transition-duration: 300ms;
+  -o-transition-duration: 300ms;
+  transition-duration: 300ms;
+}
+.obj-turn .switch-button,
+.switch-button.switch-on {
+  background: #01c0c8;
+}
+.switch-button.switch-on::before {
+  content: "ON";
+  right: 42px;
+}
+.switch-button.switch-on::after {
+  left: 37px;
+}
+
+/*  Object : object-turn + object-slider */
+.obj-turn.obj-slider .obj-info .obj-counter-percent {
+  margin-left: 80px;
+  margin-top: 28px;
+}
+.obj-turn.obj-slider .switch-button::before {
+  content: "R";
+  right: 15px;
+}
+.obj-turn.obj-slider .switch-button.switch-on::before {
+  content: "L";
+  right: 46px;
+}
+
+.obj-timer {
+  display: table;
+  cursor: pointer;
+}
+.obj-timer .obj-timer-val,
+.obj-timer .obj-icon {
+  line-height: 35px;
+  color: #ccc;
+  display: table-cell;
+  vertical-align: middle;
+  text-align: center;
+}
+.obj-timer .obj-timer-val {
+  font-size: 20px;
+}
+.obj-timer .obj-icon {
+  font-size: 50px;
+}
+.obj-timer .obj-timer-set {
+  display: none;
+  position: relative;
+}
+.obj-timer .obj-timer-set .obj-timer-val {
+  color: inherit;
+  width: 45px;
+  display: inline;
+  font-size: 15px;
+  height: 30px;
+  margin-top: 2px;
+  border: 0 none;
+  background: transparent;
+  pointer-events: none;
+}
+.obj-timer .obj-timer-set .obj-timer-val::before {
+  content: "h";
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  background: red;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.obj-timer-set {
+  width: 94px;
+  display: table-cell;
+  vertical-align: middle;
+  text-align: center;
+}
+.obj-timer-set .obj-timer-on,
+.obj-timer-set .obj-timer-edit {
+  display: inline-block;
+  width: 23px;
+  height: 23px;
+  text-align: center;
+  border-radius: 50%;
+  background: #ccc;
+  cursor: pointer;
+  margin-top: 5px
+}
+.obj-timer-set .obj-timer-edit {
+  float: left;;
+  margin-left: -11px;
+}
+.obj-timer-set .obj-timer-on {
+  float: right;
+  margin-right: -11px;
+}
+.obj-timer-set .obj-timer-on .fa, .obj-timer-set .obj-timer-edit .fa {
+  color: #fff;
+  line-height: 22px;
+}
+
+/*  Object : obj-send */
+.object.obj-send {
+  min-height: 200px;
+}
+/*  Object was turned on */
+.object.turn-on .obj-counter-percent .fa {
+  color: inherit;
+}
+.object.turn-on .obj-timer .obj-timer-set {
+  display: table-cell;
+}
+.object.turn-on .obj-timer .obj-icon {
+  display: none;
+}
+.object .obj-timer .obj-timer-set.timer-edit .obj-timer-val {
+  pointer-events: all;
+}
+
+
+.object .obj-timer-set.timer-on .obj-timer-on,
+.object .obj-timer-set.timer-edit .obj-timer-edit {
+  background-color: #01c0c8;
+}
+/*  Flavor oragne */
+.obj-turn.flavor-orange .switch-button,
+.obj-turn.flavor-orange .switch-button.switch-on,
+.obj-slider.flavor-orange .ui-widget-header,
+.obj-slider.flavor-orange .slider-range-min .ui-slider-handle,
+.obj-button.flavor-orange .switch-button.switch-on,
+.object.flavor-orange .obj-timer-set.timer-on .obj-timer-on,
+.object.flavor-orange .obj-timer-set.timer-edit .obj-timer-edit {
+  background-color: #fb9678;
+}
+/*  Flavor green */
+.obj-turn.flavor-green .switch-button,
+.obj-turn.flavor-green .switch-button.switch-on,
+.obj-slider.flavor-green .ui-widget-header,
+.obj-slider.flavor-green .slider-range-min .ui-slider-handle,
+.obj-button.flavor-green .switch-button.switch-on,
+.object.flavor-green .obj-timer-set.timer-on .obj-timer-on,
+.object.flavor-green .obj-timer-set.timer-edit .obj-timer-edit {
+  background-color: #00c292;
+}
+/*  Flavor violet */
+.obj-turn.flavor-violet .switch-button,
+.obj-turn.flavor-violet .switch-button.switch-on,
+.obj-slider.flavor-violet .ui-widget-header,
+.obj-slider.flavor-violet .slider-range-min .ui-slider-handle,
+.obj-button.flavor-violet .switch-button.switch-on,
+.object.flavor-violet .obj-timer-set.timer-on .obj-timer-on,
+.object.flavor-violet .obj-timer-set.timer-edit .obj-timer-edit {
+  background-color: #ab8ce4;
+}
+
+.type-input {
+  margin: 10px 0;
+  height: 30px;
+  min-width: 200px;
+  max-width: 300px;
+  width: 100%;
+  border-bottom: 1px dashed #797979;
+  position: relative;
+}
+.type-input input[type=text] {
+  width: 100%;
+  height: 100%;
+  color: #797979;
+  padding-left: 60px;
+  border-width: 0;
+  border-color: #000;
+  border-radius: 0;
+}
+.type-input input[type=text]:focus {
+  border: none;
+  outline: none;
+}
+.type-input label {
+  color: #797979;
+  margin-bottom: 4px;
+  position: absolute;
+  bottom: 0;
+  left: 1px;
+}
+.object .submit {
+  color: #fff;
+  border: 1px solid #01c0c8;
+  width: 74px;
+  height: 32px;
+  border-radius: 5px;
+  position: absolute;
+  left: 20px;
+  bottom: 20px;
+  background: #01c0c8;
+}
+.submit .fa, .submit span {
+  position: absolute;
+  top: 7px;
+  -webkit-transition: 500ms;
+  -o-transition: 500ms;
+  transition: 500ms;
+}
+.submit .fa {
+  left: 9px;
+}
+.submit span {
+  top: 5px;
+  left: 29px;
+}
+.submit:hover .fa {
+  left: 48px;
+}
+.submit:hover span {
+  left: 9px;
+}
+.obj-timer .timer-progress {
+  transform: rotate(270deg);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+.timer-progress circle {
+  stroke: #ccc;
+  stroke-width: 3px;
+  stroke-dashoffset: 0;
+  fill: transparent;
+  transition: stroke-dashoffset 1s linear;
+  -webkit-transition: stroke-dashoffset 0.6s linear;
+  -o-transition: stroke-dashoffset 0.6s linear;
+  transition: stroke-dashoffset 0.6s linear;
+}
+.timer-progress .progress-bar {
+  stroke: #01c0c8;
+  stroke-dashoffset: 245px;
+}
+
+.object.flavor-orange .progress-bar {
+  stroke: #fb9678;
+}
+.object.flavor-green .progress-bar {
+  stroke: #00c292;
+}
+.object.flavor-violet .progress-bar {
+  stroke: #ab8ce4;
+}
+
+/* -- Responsive --   */
+
+@media (max-width: 639px) {
+  .col-xs-6 {
+    width: 100%;
+  }
+}
