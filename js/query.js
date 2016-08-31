@@ -33,11 +33,7 @@
 
 $(document).ready(function(){
 
-function isMobile() {
-  try{ document.createEvent("TouchEvent"); return true; }
-  catch(e){ return false; }
-}
-var mobile = isMobile();
+var mobile = ! ( (typeof window.orientation !== 'undefined') || ! ("ontouchstart" in window || window.DocumentTouch && document instanceof DocumentTouch) );
 
 ////////////////////////////////////////////
 ////		Object Slider Value 		////
@@ -68,7 +64,7 @@ $(".obj-slider").each(function() {
 /////////////////////////////////////
 ////		Object Timer 		////
 
-if( !mobile ) {	// Not loaded on mobile
+if( ! mobile ) {	// Not loaded on mobile
 
 // -- 	Turn on
 $('.object .obj-timer').on("click",function() {
