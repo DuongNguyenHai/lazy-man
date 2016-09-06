@@ -31,95 +31,104 @@
 })(jQuery);
 
 
-$(document).ready(function(){
+$(document).ready(function() {
 
-var mobile = ! ( (typeof window.orientation !== 'undefined') || ! ("ontouchstart" in window || window.DocumentTouch && document instanceof DocumentTouch) );
+// check if device is touch screen
+var TOUCHSCREEN = ('ontouchstart' in window) || (navigator.msMaxTouchPoints > 0);
 
-////////////////////////////////////////////
-////		Object Slider Value 		////
+//	-- 		Object Slider value 	--	//
 
-// --	adjust slider
+// Adjust slider
 $(".obj-slider").each(function() {
 	var THIS = $(this);
+	var OBJECT = $(this).closest(".object");
+
 	var setValue = parseInt($(".counter", THIS).text());
 	$(".counter", THIS).text(setValue + " %");
 
 	$(".slider-range-min", THIS).slider({
-	  range: "min",
-	  value: setValue,
-	  min: 0,
-	  max: 100,
-	  slide: function( event, ui ) {
-	  	if( ui.value==0 )
-	  		$(".counter", THIS).text( "OFF" );
-	  	else
-	    	$(".counter", THIS).text( ui.value + " %" );
-	  }
+		range: "min",
+		value: setValue,
+		min: 0,
+		max: 100,
+		slide: function( event, ui ) {
+			if( ui.value==0 )
+				$(".counter", THIS).text("OFF");
+			else
+				$(".counter", THIS).text( ui.value + " %" );
+		},
+		stop: function(event, ui) {
+			if( $(OBJECT).hasClass("turn-on") ) {
+				var objName = $(OBJECT).find(".obj-header").html();
+				UpdateObject(objName.toString(), "amplitude=" + ui.value);
+			}
+		}
 	});
 	
 });
 
-////		Finish Object Slider Value 		////
-///////////////////////////////////////////////
-/////////////////////////////////////
-////		Object Timer 		////
-
-if( ! mobile ) {	// Not loaded on mobile
-
-// -- 	Turn on
-$('.object .obj-timer').on("click",function() {
-	$(this).closest(".object").addClass("turn-on");
-	$(this).siblings(".switch-button:not('.type-turn')").first().addClass("switch-on");
+$(".object:not('.obj-send')").each(function() {
+	SetTimerProgress($(this).find(".obj-timer"));
 });
 
-// --	Turn off
-$('.object .obj-timer').on("dblclick",function() {
-	$(this).closest(".object").removeClass("turn-on");
-	$(this).siblings(".switch-button:not('.type-turn')").first().removeClass("switch-on");
-	ClearTimer($(this).closest(".obj-timer"));
+//	--		Object Timer 	--	//
+
+if( ! TOUCHSCREEN ) {	// Not loaded on TOUCHSCREEN
+
+// Turn on
+$(".obj-timer").on("click",function(e) {
+	var OBJECT = $(this).closest(".object");
+	TurnOn(OBJECT);
 });
 
-// --	prevent parent click
-$(".obj-timer-set .obj-timer-on, .obj-timer-set .obj-timer-edit").dblclick(function(e) {
+// Turn off
+$(".obj-off").on("click",function() {
+	var OBJECT = $(this).closest(".object");
+	TurnOff(OBJECT);
+});
+
+} // End not loaced TOUCHSCREEN
+
+
+// Timer : on/off
+$(".obj-timer-set .obj-timer-on").on("click", function(e) {
 	e.stopPropagation();
-});
-
-} // End not loaced mobile
-
-
-// -- 	Timer : on/off
-$(".obj-timer-set .obj-timer-on").click(function(e) {
 	var Timer = $(this).closest(".obj-timer-set");
 	if( $(Timer).hasClass("timer-on") && $(Timer).hasClass("timer-edit") ){
 		$(Timer).removeClass("timer-edit");
-		SetTimerProgress($(Timer).closest(".obj-timer"));
+		SetTimer($(Timer).closest(".object"));
 	}
 	else 
 		if( $(Timer).hasClass("timer-on") && ! $(Timer).hasClass("timer-edit") )
-			ClearTimer($(Timer).closest(".obj-timer"));
+			ClearTimer($(Timer).closest(".object"));
 		else {
 			$(Timer).toggleClass("timer-on").removeClass("timer-edit");
-			SetTimerProgress($(Timer).closest(".obj-timer"));
+			SetTimer($(Timer).closest(".object"));
 		}
 })
-
-// --	Timer : Edit
-$(".obj-timer-set .obj-timer-edit").click(function(e) {
+if( ! TOUCHSCREEN ) {
+// Timer : Edit
+$(".obj-timer-set .obj-timer-edit").on("click", function(e) {
+	e.stopPropagation();
 	var Timer = $(this).closest(".obj-timer-set");
 	$(Timer).toggleClass("timer-edit");
-	$(this).siblings(".obj-timer-val").first().focus();
+	$(Timer).find(".obj-timer-val").focus();
 	if( ! $(Timer).hasClass("timer-edit") && $(Timer).hasClass("timer-on") ) {
   		var ObjTimer = $(Timer).closest(".obj-timer");
-		SetTimerProgress(ObjTimer);
+		SetTimer($(Timer).closest(".object"));
 	}
-
 });
 
-// --	Set timer for object : time_set - time_current (minute)
-function SetTimerProgress(circle) {
+}
 
-	var str = $(circle).find(".obj-timer-val").val();
-	var objectSet = $(circle).find(".progress-bar");
+// Set timer for object : time_set - time_current (minute)
+function SetTimerProgress(OBJECT) {
+
+	var str = $(OBJECT).find(".obj-timer-val").val();
+
+	if( str=='NULL' || !str ) return 0;
+
+	var objectSet = $(OBJECT).find(".progress-bar");
 	var dt = new Date();
 	var time_curr =  dt.getHours()*60 + dt.getMinutes();
 
@@ -141,11 +150,11 @@ function SetTimerProgress(circle) {
 
 	if(time_set>1440) {
 		time_set = 1440;
-		$(circle).find(".obj-timer-val").val("24h")
+		$(OBJECT).find(".obj-timer-val").val("24h")
 	}
 	else if(time_set<0){
 		time_set = 0;
-		$(circle).find(".obj-timer-val").val("0h")
+		$(OBJECT).find(".obj-timer-val").val("0h")
 	}
 
 	// Get the rest of timer
@@ -157,54 +166,108 @@ function SetTimerProgress(circle) {
 	var r = objectSet.attr('r');
 	var pct = ((1440-time_set)/1440)*Math.PI*(r*2);
 	objectSet.css({ strokeDashoffset: pct});
+
+	return str;
 }
 
-function ClearTimer(ObjTimer) {
-	$(ObjTimer).find(".obj-timer-val").val("0h");
-	var objectSet = $(ObjTimer).find(".progress-bar");
+function SetTimer(OBJECT) {
+	var str = SetTimerProgress(OBJECT);
+	var objName = $(OBJECT).find(".obj-header").html();
+	
+	if(str)
+		UpdateObject(objName.toString(), "timer='"+str+"'");
+}
+function ClearTimer(OBJECT) {
+	$(OBJECT).find(".obj-timer-val").val("NULL");
+	var objName = $(OBJECT).find(".obj-header").html();
+	var objectSet = $(OBJECT).find(".progress-bar");
 	var r = objectSet.attr('r');
 	objectSet.css({ strokeDashoffset: Math.PI*(r*2)});
-	$(".obj-timer-set", ObjTimer).removeClass("timer-on timer-edit");
+	$(".obj-timer-set", OBJECT).removeClass("timer-on timer-edit");
+	UpdateObject(objName.toString(), "timer=NULL");
 }
 
-////		Finish Object Timer 		////
-///////////////////////////////////////////
-/////////////////////////////////////
-////		Object Switch 		////
+//	--	Object Switch 	--	//	
 
-// --	turn on/off by switch
+// 	Turn on/off by switch
 
-$(".object .switch-button").click(function(){
+$(".switch-button:not('.type-turn')").on("click", function() {
 	$(this).toggleClass("switch-on");
-	$(this).not(".type-turn").closest(".object").toggleClass("turn-on");
-	if( !$(this).hasClass("type-turn") ){
-		var ObjTimer = $(this).closest(".object").find(".obj-timer");
-		ClearTimer(ObjTimer);
-	}
+	var OBJECT = $(this).closest(".object");
+	if($(this).hasClass("switch-on"))
+		TurnOn(OBJECT);
+	else
+		TurnOff(OBJECT);
 });
 
-////		Finish Object Switch 		////
 ///////////////////////////////////////////
 
-if( mobile ) { // Load on mobile
+if( TOUCHSCREEN ) { // Load on TOUCHSCREEN
 
-	$('.object .obj-timer').on("touchstart",function() {
-		$(this).closest(".object").addClass("turn-on");
-		$(this).siblings(".switch-button:not('.type-turn')").first().addClass("switch-on");
+	$(".lazy-man").addClass("touch-device");
+
+	$(".obj-timer").on("touchstart",function() {
+		$(this).find(".obj-timer-val").prop('disabled', true);
+		var OBJECT = $(this).closest(".object");
+		TurnOn(OBJECT);
 	});
 
-	$('.object .obj-timer').on("doubletap", function(){
-		$(this).closest(".object").removeClass("turn-on");
-		$(this).siblings(".switch-button:not('.type-turn')").first().removeClass("switch-on");
-		ClearTimer($(this).closest(".obj-timer"));
+	$(".obj-off").on("touchstart",function() {
+		var OBJECT = $(this).closest(".object");
+		TurnOff(OBJECT);
 	});
 
-	$(".obj-timer-set .obj-timer-on, .obj-timer-set .obj-timer-edit").on("doubletap",function(e) {
+	$(".obj-timer-set .obj-timer-edit").on("click", function(e) {
 		e.stopPropagation();
+		var Timer = $(this).closest(".obj-timer-set");
+		$(Timer).toggleClass("timer-edit");
+		if( $(Timer).hasClass("timer-edit") ) {
+			$(Timer).find(".obj-timer-val").prop('disabled', false);
+			$(Timer).find(".obj-timer-val").focus();
+		}
+		else
+			$(Timer).find(".obj-timer-val").prop('disabled', true);
+		
+		if( ! $(Timer).hasClass("timer-edit") && $(Timer).hasClass("timer-on") )
+			SetTimer((Timer).closest(".object"));
 	});
+} // End load on TOUCHSCREEN
 
-} // End load on mobile
+// Function turn on
+function TurnOn(OBJECT) {
+	if( $(OBJECT).hasClass("turn-on") )
+		return;
 
+	$(OBJECT).addClass("turn-on").find(".switch-button:not('.type-turn')").addClass("switch-on");
+	var objName = $(OBJECT).find(".obj-header").html();
+
+	if($(OBJECT).hasClass("obj-slider")) {
+		var amplitude = parseInt($(OBJECT).find(".counter").html());
+		UpdateObject(objName.toString(), "state=1,amplitude=" + amplitude);
+	}else
+		UpdateObject(objName.toString(), "state=1");
+	
+}
+// Function turn off
+function TurnOff(OBJECT) {
+	$(OBJECT).removeClass("turn-on");
+	ClearTimer(OBJECT);
+	var objName = $(OBJECT).find(".obj-header").html();
+	UpdateObject(objName.toString(), "state=0");
+}
+
+// update info of object to server
+
+function UpdateObject(objName, strUpdate) {
+	$.post(
+		"data.php",
+		{
+			type : "update",
+			name : objName,
+			update : strUpdate
+		}
+	)
+}
 
 });
 

@@ -5,19 +5,20 @@ body {
   position: relative;
   
 }
-/*html, body {
-  -webkit-overflow-scrolling : touch !important;
-}*/
 .navbar {
   height: 100px;
   background-color: #36404a;
   border-color: #36404a;
 }
+
+/* -- Object -- */
+
 .object {
   color: #01c0c8;
   position: relative;
   min-height: 145px;
-  margin: 10px 0;
+  max-height: 145px;
+  margin: 20px 0;
   padding: 20px 0 0 0;
   background-color: #fff;
   background-repeat: repeat-x;
@@ -35,9 +36,9 @@ body {
   padding: 0 20px 0px 20px;
 }
 .obj-counter-percent {
-  margin: 35px 0 10px 0;
+  position: absolute;
+  bottom: 7px;
 }
-
 .obj-counter-percent .counter{
   color: inherit;
   font-size: 14px;
@@ -64,12 +65,39 @@ body {
 .obj-power-consumption .fa {
   margin-right: 5px;
 }
-/*  Object : object-slider */
-.obj-slider .ui-widget-header {
+.obj-off {
+  width: 40px;
+  height: 25px;
+  line-height: 25px;
+  position: absolute;
+  right: 0;
+  top: -25px;
+  background: #ccc;
+  text-align: center;
+  cursor: pointer;
+  visibility: hidden;
+  -webkit-transition: 300ms;
+  -o-transition: 300ms;
+  transition: 300ms;
+}
+.obj-off:hover {
+  background: #e7505a;
+}
+.obj-off .fa {
+  color: #fff;
+  font-size: 17px;
+  line-height: 25px;
+}
+.turn-on .obj-off {
+  visibility: visible;
+}
+/* -- Object slider (obj-button) -- */
+
+.ui-widget-header {
   border-radius: 0;
   background-color: #01c0c8;
 }
-.obj-slider .ui-widget.ui-widget-content {
+.ui-widget.ui-widget-content {
   width: 100%;
   height: 6px;
   border: 0;
@@ -81,7 +109,7 @@ body {
   cursor: pointer;
   outline: none;
 }
-.obj-slider .slider-range-min .ui-slider-handle {
+.slider-range-min .ui-slider-handle {
   border: 0px;
   height: 20px;
   width: 14px;
@@ -91,7 +119,7 @@ body {
   cursor: pointer;
   outline: none;
 }
-.obj-slider .slider-range-min .ui-slider-handle::before {
+.slider-range-min .ui-slider-handle::before {
   content: '';
   display: block;
   width: 0; 
@@ -105,11 +133,8 @@ body {
   cursor: pointer;
 }
 
-/* object obj-button */
+/* -- Object button (obj-button) -- */
 
-.object.obj-button .obj-info {
-  text-align: left;
-}
 .switch-button {
     height: 30px;
     width: 70px;
@@ -147,7 +172,6 @@ body {
   -o-transition-duration: 300ms;
   transition-duration: 300ms;
 }
-.obj-turn .switch-button,
 .switch-button.switch-on {
   background: #01c0c8;
 }
@@ -159,10 +183,17 @@ body {
   left: 37px;
 }
 
-/*  Object : object-turn + object-slider */
+/* -- Object turn (obj-turn) -- */
+
+.obj-turn .switch-button {
+  background: #01c0c8;
+}
+
+/* -- Object-turn + Object-slider -- */
+
 .obj-turn.obj-slider .obj-info .obj-counter-percent {
-  margin-left: 80px;
-  margin-top: 28px;
+  left: 100px;
+  bottom: 15px;
 }
 .obj-turn.obj-slider .switch-button::before {
   content: "R";
@@ -172,13 +203,12 @@ body {
   content: "L";
   right: 46px;
 }
-
 .obj-timer {
   display: table;
   cursor: pointer;
 }
-.obj-timer .obj-timer-val,
-.obj-timer .obj-icon {
+.obj-timer .obj-icon,
+.obj-timer .obj-timer-val {
   line-height: 35px;
   color: #ccc;
   display: table-cell;
@@ -201,7 +231,7 @@ body {
   display: none;
   position: relative;
 }
-.obj-timer .obj-timer-set .obj-timer-val {
+.obj-timer-set .obj-timer-val {
   color: inherit;
   width: 45px;
   display: inline-block;
@@ -210,14 +240,24 @@ body {
   height: 30px;
   margin-top: 2px;
   border-width: 0 0 1px 0;
+  border-style: dashed;
   border-radius: 0;
-  border-color: transparent;
+  border-bottom-color: transparent;
   outline: none;
   background: transparent;
   pointer-events: none;
   -webkit-transition: 300ms;
   -o-transition: 300ms;
   transition: 300ms;
+  position: relative;
+  z-index: 0;
+}
+.obj-timer-set .obj-timer-val:-moz-placeholder,
+.obj-timer-set .obj-timer-val::-moz-placeholder,
+.obj-timer-set .obj-timer-val:-ms-input-placeholder,
+.obj-timer-set .obj-timer-val::-webkit-input-placeholder,
+.obj-timer-set .obj-timer-val:disabled {
+  opacity: 1;
 }
 .obj-timer-set {
   width: 94px;
@@ -248,86 +288,20 @@ body {
   color: #fff;
   line-height: 22px;
 }
+.obj-timer-set.timer-on .obj-timer-on,
+.obj-timer-set.timer-edit .obj-timer-edit {
+  background-color: #01c0c8;
+}
+.obj-timer-set.timer-edit .obj-timer-val,
+.obj-timer-set:hover .obj-timer-val {
+  border-bottom-color: #01c0c8;
+}
 
-/*  Object : obj-send */
+/* -- Object send (obj-send) -- */
+
 .object.obj-send {
   min-height: 200px;
 }
-/*  Object was turned on */
-.object.turn-on .obj-counter-percent .fa {
-  color: inherit;
-}
-.object.turn-on .obj-timer .obj-timer-set {
-  display: table-cell;
-}
-.object.turn-on .obj-timer .obj-icon {
-  display: none;
-}
-.object .obj-timer .obj-timer-set.timer-edit .obj-timer-val {
-  pointer-events: all;
-}
-
-/*  Flavor blue (default) */
-.object .obj-timer-set.timer-on .obj-timer-on,
-.object .obj-timer-set.timer-edit .obj-timer-edit {
-  background-color: #01c0c8;
-}
-.obj-timer:hover .obj-timer-set .obj-timer-val {
-  border-bottom-color: #01c0c8;
-}
-/*  Flavor oragne */
-.object.flavor-orange {
-  color: #fb9678;
-}
-.object.flavor-orange .obj-timer:hover .obj-timer-set .obj-timer-val,
-.obj-slider.flavor-orange .slider-range-min .ui-slider-handle:before {
-  border-bottom-color: #fb9678;
-}
-.obj-turn.flavor-orange .switch-button,
-.obj-turn.flavor-orange .switch-button.switch-on,
-.obj-slider.flavor-orange .ui-widget-header,
-.obj-slider.flavor-orange .slider-range-min .ui-slider-handle,
-.obj-button.flavor-orange .switch-button.switch-on,
-.object.flavor-orange .obj-timer-set.timer-on .obj-timer-on,
-.object.flavor-orange .obj-timer-set.timer-edit .obj-timer-edit {
-  background-color: #fb9678;
-}
-/*  Flavor green */
-.object.flavor-green {
-  color: #00c292;
-}
-.object.flavor-green .obj-timer:hover .obj-timer-set .obj-timer-val,
-.obj-slider.flavor-green .slider-range-min .ui-slider-handle:before {
-  border-bottom-color: #00c292;
-}
-.obj-turn.flavor-green .switch-button,
-.obj-turn.flavor-green .switch-button.switch-on,
-.obj-slider.flavor-green .ui-widget-header,
-.obj-slider.flavor-green .slider-range-min .ui-slider-handle,
-.obj-button.flavor-green .switch-button.switch-on,
-.object.flavor-green .obj-timer-set.timer-on .obj-timer-on,
-.object.flavor-green .obj-timer-set.timer-edit .obj-timer-edit {
-  background-color: #00c292;
-}
-
-/*  Flavor violet */
-.object.flavor-violet {
-  color: #ab8ce4;
-}
-.object.flavor-violet .obj-timer:hover .obj-timer-set .obj-timer-val,
-.obj-slider.flavor-violet .slider-range-min .ui-slider-handle:before {
-  border-bottom-color: #ab8ce4;
-}
-.obj-turn.flavor-violet .switch-button,
-.obj-turn.flavor-violet .switch-button.switch-on,
-.obj-slider.flavor-violet .ui-widget-header,
-.obj-slider.flavor-violet .slider-range-min .ui-slider-handle,
-.obj-button.flavor-violet .switch-button.switch-on,
-.object.flavor-violet .obj-timer-set.timer-on .obj-timer-on,
-.object.flavor-violet .obj-timer-set.timer-edit .obj-timer-edit {
-  background-color: #ab8ce4;
-}
-
 .type-input {
   margin: 10px 0;
   height: 30px;
@@ -412,20 +386,112 @@ body {
   stroke-dashoffset: 245px;
 }
 
+.log-box {
+  position: fixed;
+  right: 50px;
+  top: 120px;
+  cursor: pointer;
+  z-index: 9999;
+  -webkit-transition: 300ms;
+  -o-transition: 300ms;
+  transition: 300ms;
+}
+
+.log-box p {
+  display: inline;
+}
+/* -- Object was turned on -- */
+
+.object.turn-on .obj-counter-percent .fa {
+  color: inherit;
+}
+.object.turn-on .obj-timer .obj-timer-set {
+  display: table-cell;
+}
+.object.turn-on .obj-timer .obj-icon {
+  display: none;
+}
+.obj-timer .obj-timer-set.timer-edit .obj-timer-val {
+  pointer-events: all;
+}
+
+/* -- Flavor oragne -- */
+
+.object.flavor-orange {
+  color: #fb9678;
+}
 .object.flavor-orange .progress-bar {
   stroke: #fb9678;
+}
+.object.flavor-orange .obj-timer-set:hover .obj-timer-val,
+.object.flavor-orange .obj-timer-set.timer-edit .obj-timer-val,
+.object.flavor-orange .slider-range-min .ui-slider-handle:before {
+  border-bottom-color: #fb9678;
+}
+.object.obj-turn.flavor-orange .switch-button,
+.object.flavor-orange .switch-button.switch-on,
+.object.flavor-orange .ui-widget-header,
+.object.flavor-orange .slider-range-min .ui-slider-handle,
+.object.flavor-orange .switch-button.switch-on,
+.object.flavor-orange .obj-timer-set.timer-on .obj-timer-on,
+.object.flavor-orange .obj-timer-set.timer-edit .obj-timer-edit {
+  background-color: #fb9678;
+}
+
+/* -- Flavor green -- */
+
+.object.flavor-green {
+  color: #00c292;
 }
 .object.flavor-green .progress-bar {
   stroke: #00c292;
 }
+.object.flavor-green .obj-timer-set:hover .obj-timer-val,
+.object.flavor-green .obj-timer-set.timer-edit .obj-timer-val,
+.object.flavor-green .slider-range-min .ui-slider-handle:before {
+  border-bottom-color: #00c292;
+}
+.object.obj-turn.flavor-green .switch-button,
+.object.flavor-green .switch-button.switch-on,
+.object.flavor-green .ui-widget-header,
+.object.flavor-green .slider-range-min .ui-slider-handle,
+.object.flavor-green .switch-button.switch-on,
+.object.flavor-green .obj-timer-set.timer-on .obj-timer-on,
+.object.flavor-green .obj-timer-set.timer-edit .obj-timer-edit {
+  background-color: #00c292;
+}
+
+/* -- Flavor violet -- */
+
+.object.flavor-violet {
+  color: #ab8ce4;
+}
 .object.flavor-violet .progress-bar {
   stroke: #ab8ce4;
 }
+.object.flavor-violet .obj-timer-set:hover .obj-timer-val,
+.object.flavor-violet .obj-timer-set.timer-edit .obj-timer-val,
+.object.flavor-violet .slider-range-min .ui-slider-handle:before {
+  border-bottom-color: #ab8ce4;
+}
+.object.obj-turn.flavor-violet .switch-button,
+.object.flavor-violet .switch-button.switch-on,
+.object.flavor-violet .ui-widget-header,
+.object.flavor-violet .slider-range-min .ui-slider-handle,
+.object.flavor-violet .switch-button.switch-on,
+.object.flavor-violet .obj-timer-set.timer-on .obj-timer-on,
+.object.flavor-violet .obj-timer-set.timer-edit .obj-timer-edit {
+  background-color: #ab8ce4;
+}
 
-/* -- Responsive --   */
+.touch-device .obj-timer:hover .obj-icon {
+  color: #ccc;
+}
+/* -- Responsive -- */
 
 @media (max-width: 639px) {
   .col-xs-6 {
     width: 100%;
   }
+  
 }
