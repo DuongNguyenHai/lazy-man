@@ -3,12 +3,12 @@
 define("serverName", "localhost");
 define("userName", "root");
 define("password", "nightsky");
-define("dbname", "home");
+define("dbName", "home");
 define("TABLE", " device "); // need space between 'device'
 
 // Create connection
 function ConnectDatabse() {
-	$conn = mysqli_connect(serverName, userName, password, dbname);
+	$conn = mysqli_connect(serverName, userName, password, dbName);
 	// Check connection
 	if (!$conn)
 	    die("Connection failed: " . mysqli_connect_error());
@@ -22,10 +22,8 @@ function CloseDatabase($conn) {
 	mysqli_close($conn);
 }
 
-// Create a new table
 // This fuction just suitable for light object
 // ex : InsertObject($conn,"obj-slider", "objName-light", NULL,"Living Room Light", 0, 30, "fa-lightbulb-o");
-
 function InsertObject($conn, $objType, $objName, $state, $objFalvor, $timer, $consumption, $amplitude, $icon="fa-wrench") {
 	
 	$sql = "INSERT INTO " . TABLE . " (type, name, state, flavor, timer, consumption, amplitude, icon)
@@ -76,7 +74,5 @@ function GetObject($conn) {
 }
 
 // Print Log
-function PrintLog($log) {
-}
 
 ?>

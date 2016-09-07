@@ -22,9 +22,10 @@ function PrintObject($objType, $objName, $state, $objFalvor, $timer, $consumptio
 		$stateButton = "switch-on";
 		$stateName = "turn-on";
 	}
-	
-	$stateTimer = $timer ? 'timer-on' : NULL;
-	$timerVal = $timer ? $timer : NULL;
+	if(  $timer && $state ) {
+		$stateTimer = "timer-on";
+		$timerVal = $timer;
+	}
 
 	echo '<div class="col-lg-3 col-md-4 col-sm-6 col-xs-6">';
 		echo '<div class="object '.$objType . " " .$objFalvor. " " .$stateName.'">';

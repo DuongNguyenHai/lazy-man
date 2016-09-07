@@ -17,7 +17,7 @@ function ConnectToMaster() {
 	    $errorcode = socket_last_error();
 	    $errormsg = socket_strerror($errorcode);
 	     
-	    die("Could not connect: [$errorcode] $errormsg \n");
+	    die("Could not connect to Master: [$errorcode] $errormsg \n");
 	}
 	// echo "Connection established \n";
 	return $sock;
@@ -30,7 +30,7 @@ function SendCommandToMaster($message) {
 	    $errorcode = socket_last_error();
 	    $errormsg = socket_strerror($errorcode);
 	    
-	    die("Could not send data: [$errorcode] $errormsg \n");
+	    die("Could not send data to Master: [$errorcode] $errormsg \n");
 	}
 	// echo "Message send successfully \n";
 	DisconnectToMaster($sock);

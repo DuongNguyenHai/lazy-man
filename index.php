@@ -73,5 +73,5 @@ $conn = ConnectDatabse();
 </html>
 
 <?php 
-	// CloseDatabase($conn);
+	CloseDatabase($conn);
 ?>
