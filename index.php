@@ -1,7 +1,11 @@
+<!-- 	Nguyen Hai Duong, September 2016 
+ 			GNU LESSER GENERAL PUBLIC LICENSE Version 2.1, February 1999
+-->
+
 <?php 
 
-include 'print-HTML.php';
-include 'sql-function.php';
+include 'function/print-HTML.php';
+include 'function/sql-function.php';
 
 $conn = ConnectDatabse();
 
@@ -18,15 +22,15 @@ $conn = ConnectDatabse();
     
     <!-- CSS -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans">
-    <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="fonts/font-awesome/css/font-awesome.min.css">
     <!-- Bootstrap -->
-    <link rel="stylesheet" href="css/bootstrap.min.css">
-    <link rel="stylesheet" href="jquery/jquery-ui.min.css">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="css/jquery-ui.min.css">
     <link rel="stylesheet" type="text/css" href="css/index.css">
     
     <!-- JS -->
-    <script type="text/javascript" src="jquery/jquery.js"></script>
-    <script type="text/javascript" src="jquery/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="js/jquery/jquery.js"></script>
+    <script type="text/javascript" src="js/jquery/jquery-ui.min.js"></script>
     <script type="text/javascript" src="js/jquery.ui.touch-punch.min.js"></script>
     <script type="text/javascript" src="js/query.js"></script>
     
@@ -61,10 +65,10 @@ $conn = ConnectDatabse();
         </div>
       </div>
     </div>
-<!-- 	  <div class="log-box alert alert-danger" role="alert">
+	  <div class="log-box alert alert-danger" role="alert">
 			<strong>Woop !</strong>
 			<p class="log-text">test demo alert log</p>
-		</div> -->
+		</div>
   </body>
 </html>
 

@@ -106,6 +106,7 @@ $(".obj-timer-set .obj-timer-on").on("click", function(e) {
 			SetTimer($(Timer).closest(".object"));
 		}
 })
+
 if( ! TOUCHSCREEN ) {
 // Timer : Edit
 $(".obj-timer-set .obj-timer-edit").on("click", function(e) {
@@ -133,7 +134,11 @@ function SetTimerProgress(OBJECT) {
 	var time_curr =  dt.getHours()*60 + dt.getMinutes();
 
 	var n = str.indexOf('h');
-	if(n<0) n = str.length;
+	if(n<0) {
+		$(OBJECT).find(".obj-timer-val").val("");
+		AlertBox("Wrong timer, timer sample : 10h30");
+		return 0;
+	}
 
 	var m = str.indexOf('\'');
 	if(m<0)	m = str.length - 1;
@@ -150,11 +155,11 @@ function SetTimerProgress(OBJECT) {
 
 	if(time_set>1440) {
 		time_set = 1440;
-		$(OBJECT).find(".obj-timer-val").val("24h")
+		$(OBJECT).find(".obj-timer-val").val("24h");
 	}
 	else if(time_set<0){
 		time_set = 0;
-		$(OBJECT).find(".obj-timer-val").val("0h")
+		$(OBJECT).find(".obj-timer-val").val("");
 	}
 
 	// Get the rest of timer
@@ -177,13 +182,15 @@ function SetTimer(OBJECT) {
 	if(str)
 		UpdateObject(objName.toString(), "timer='"+str+"'");
 }
+
 function ClearTimer(OBJECT) {
-	$(OBJECT).find(".obj-timer-val").val("NULL");
-	var objName = $(OBJECT).find(".obj-header").html();
+	$(OBJECT).find(".obj-timer-val").val("");
 	var objectSet = $(OBJECT).find(".progress-bar");
 	var r = objectSet.attr('r');
 	objectSet.css({ strokeDashoffset: Math.PI*(r*2)});
 	$(".obj-timer-set", OBJECT).removeClass("timer-on timer-edit");
+
+	var objName = $(OBJECT).find(".obj-header").html();
 	UpdateObject(objName.toString(), "timer=NULL");
 }
 
@@ -200,6 +207,25 @@ $(".switch-button:not('.type-turn')").on("click", function() {
 		TurnOff(OBJECT);
 });
 
+$(".switch-button.type-turn").on("click", function(){
+	$(this).toggleClass("switch-on");
+});
+
+// button submit
+$(".submit-button").on("click", function(){
+	var OBJECT = $(this).closest(".object");
+	var name = $(OBJECT).find("input[name='name']").val();
+	if( !name ) {
+		AlertBox("Enter name");
+		return 0;
+	}
+	var status = $(OBJECT).find("input[name='state']").val();
+	if( !status ) {
+		AlertBox("Enter state");
+		return 0;
+	}
+	SendSpecialState( name + ":" + status );
+});
 ///////////////////////////////////////////
 
 if( TOUCHSCREEN ) { // Load on TOUCHSCREEN
@@ -260,13 +286,34 @@ function TurnOff(OBJECT) {
 
 function UpdateObject(objName, strUpdate) {
 	$.post(
-		"data.php",
+		"function/data.php",
 		{
 			type : "update",
 			name : objName,
 			update : strUpdate
 		}
 	)
+}
+
+// Function send special state
+function SendSpecialState(status) {
+	$.post(
+		"function/data.php",
+		{
+			type : "status",
+			state : status
+		}
+	)
+}
+
+// function alert
+
+function AlertBox(message) {
+	$(".log-box").addClass("log-show");
+	$(".log-box .log-text").html(message);
+	setTimeout(function(){
+		$(".log-box").removeClass('log-show');
+	}, 5000);
 }
 
 });
